@@ -20,6 +20,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Observable<List<User>> retroModule;
 
-    private RecyclerView notificationRecyclerView;
+    @BindView(R.id.a_notifications_recycler)
+    public RecyclerView notificationRecyclerView;
+
     private List<User> notificationArrayList;
     private NotificationsAdapter notificationAdapter;
 
@@ -40,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
 
         DaggerMyComponent.builder().
                 myRetroModule(new MyRetroModule("581e710d3e0000da02c08e10")).
                 build().
                 inject(this); // instance
-
     }
 
     public void doMagic(View view) {
@@ -81,14 +85,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(List<User> users) {
                         // 1. get a reference to recyclerView
-                        notificationRecyclerView = (RecyclerView) findViewById(R.id.a_notifications_recycler);
+                        //notificationRecyclerView = (RecyclerView) findViewById(R.id.a_notifications_recycler);
                         // 2. set layoutManger
                         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         // 3. Get data from database
                         notificationArrayList = new ArrayList<User>();
-                        Log.d(TAG, "onNext: " + users.size());
                         for (User user : users) {
-                            Log.d(TAG, "onNext: " + user.toString());
                             notificationArrayList.add(user);
                         }
                         // 4. set adapter

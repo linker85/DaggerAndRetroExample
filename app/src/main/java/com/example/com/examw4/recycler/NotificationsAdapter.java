@@ -12,6 +12,9 @@ import com.example.com.examw4.model.User;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by raul on 09/11/2016.
  */
@@ -59,20 +62,20 @@ public class NotificationsAdapter extends RecyclerView.Adapter <NotificationsAda
     // View holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //@BindView(R.id.name)
+        @BindView(R.id.name)
         public TextView textViewFullName;
-        //@BindView(R.id.fullName)
+        @BindView(R.id.fullName)
         public TextView textViewName;
         // Data
         public User myNotification;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            Log.d(TAG, "ViewHolder: ");
             // New instance of components inside the row
-            textViewName = (TextView) itemView.findViewById(R.id.name);
-            textViewFullName = (TextView) itemView.findViewById(R.id.fullName);
-            //ButterKnife.bind(this, itemView);
+            //textViewName     = (TextView) itemView.findViewById(R.id.name);
+            //textViewFullName = (TextView) itemView.findViewById(R.id.fullName);
+            ButterKnife.bind(this, itemView);
             // Click individual items
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
