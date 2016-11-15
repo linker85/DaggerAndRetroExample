@@ -28,6 +28,16 @@ public class NotificationsAdapter extends RecyclerView.Adapter <NotificationsAda
         this.notificationsArrayList = notificationsArrayList;
     }
 
+    public NotificationsAdapter() {}
+
+    public List<User> getNotificationsArrayList() {
+        return notificationsArrayList;
+    }
+
+    public void setNotificationsArrayList(List<User> notificationsArrayList) {
+        this.notificationsArrayList = notificationsArrayList;
+    }
+
     @Override
     public NotificationsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate parent layout

@@ -36,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.a_notifications_recycler)
     public RecyclerView notificationRecyclerView;
 
-    private List<User> notificationArrayList;
-    private NotificationsAdapter notificationAdapter;
+    List<User> notificationArrayList;
+    @Inject
+    NotificationsAdapter notificationAdapter;
+
+    MyRetroModule myRetro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        myRetro = new MyRetroModule("581e710d3e0000da02c08e10");
+
         DaggerMyComponent.builder().
-                myRetroModule(new MyRetroModule("581e710d3e0000da02c08e10")).
+                myRetroModule(myRetro).
                 build().
                 inject(this); // instance
     }
@@ -94,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
                             notificationArrayList.add(user);
                         }
                         // 4. set adapter
-                        notificationAdapter = new NotificationsAdapter(notificationArrayList);
+                        notificationAdapter.setNotificationsArrayList(notificationArrayList);
+                        //notificationAdapter = new NotificationsAdapter(notificationArrayList);
                         notificationRecyclerView.setAdapter(notificationAdapter);
                         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         notificationRecyclerView.setItemAnimator(new DefaultItemAnimator());

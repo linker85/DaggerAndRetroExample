@@ -2,6 +2,7 @@ package com.example.com.examw4.module;
 
 import com.example.com.examw4.helper.MyServiceRetrofitHelper;
 import com.example.com.examw4.model.User;
+import com.example.com.examw4.recycler.NotificationsAdapter;
 
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class MyRetroModule {
         this.key = key;
     }
 
+    @Provides
+    public NotificationsAdapter providesNotificationManager() {
+        return new NotificationsAdapter();
+    }
 
     @Provides
     public Retrofit provideRetrofitFactory() {
