@@ -1,31 +1,31 @@
 package com.example.com.examw4.module;
 
-import com.example.com.examw4.model2.Example;
+import com.example.com.examw4.model2.SearchResult;
 import com.example.com.examw4.recycler.NotificationsAdapter;
+
+import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by raul on 09/11/2016.
+ * Created by raul on 15/11/2016.
  */
 @Module
-public class MyRetroModule {
-
+public class MySearchResultsModule {
     public static final String BASE_URL = "https://api.airbnb.com";
 
-    private String key = "";
+    private String clientId = "";
 
-    public MyRetroModule (String key) {
-        this.key = key;
+    public MySearchResultsModule (String clientId) {
+        this.clientId = clientId;
     }
 
     @Provides
@@ -43,19 +43,14 @@ public class MyRetroModule {
     }
 
     @Provides
-    public Observable<Example> provideCreateLogin(Retrofit retrofit) {
-        LoginService loginService = retrofit.create(LoginService.class);
-        return loginService.getUsers(key);
-    }
-
-    @Provides
-    public OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient();
+    public Observable<List<SearchResult>> provideCreateLogin(Retrofit retrofit) {
+        SearchResultService searchResultService = retrofit.create(SearchResultService.class);
+        return searchResultService.getSearchResult(clientId);
     }
 
 
-    public interface LoginService {
-        @GET("/v2/search_results?client_id")
-        Observable<Example> getUsers(@Query("key") String key);
+    public interface SearchResultService {
+        @GET("/v2/search_results?client_id={clientId}")
+        Observable<List<SearchResult>> getSearchResult(@Path("clientId") String key);
     }
 }

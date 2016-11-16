@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.com.examw4.R;
-import com.example.com.examw4.model.User;
+import com.example.com.examw4.model2.SearchResult;
 
 import java.util.List;
 
@@ -21,20 +21,20 @@ import butterknife.ButterKnife;
 public class NotificationsAdapter extends RecyclerView.Adapter <NotificationsAdapter.ViewHolder> {
 
     // List of data
-    private List<User> notificationsArrayList;
+    private List<SearchResult> notificationsArrayList;
     private static final String TAG = "NotifAdapterTAG_";
 
-    public NotificationsAdapter(List<User> notificationsArrayList) {
+    public NotificationsAdapter(List<SearchResult> notificationsArrayList) {
         this.notificationsArrayList = notificationsArrayList;
     }
 
     public NotificationsAdapter() {}
 
-    public List<User> getNotificationsArrayList() {
+    public List<SearchResult> getNotificationsArrayList() {
         return notificationsArrayList;
     }
 
-    public void setNotificationsArrayList(List<User> notificationsArrayList) {
+    public void setNotificationsArrayList(List<SearchResult> notificationsArrayList) {
         this.notificationsArrayList = notificationsArrayList;
     }
 
@@ -51,15 +51,23 @@ public class NotificationsAdapter extends RecyclerView.Adapter <NotificationsAda
     @Override
     public void onBindViewHolder(NotificationsAdapter.ViewHolder holder, int position) {
         // Get data based on position
-        User notification = notificationsArrayList.get(position);
+        SearchResult notification = notificationsArrayList.get(position);
 
         Log.d(TAG, "onBindViewHolder: " + notification.toString());
 
         TextView textViewFullName = holder.textViewFullName;
-        textViewFullName.setText(notification.getName());
+        try {
+            textViewFullName.setText("" + notification.getListing().getCity());
+        } catch (Exception e) {
+            textViewFullName.setText("isAvailable");
+        }
 
         TextView textViewName = holder.textViewName;
-        textViewName.setText(notification.getName());
+        try {
+            textViewName.setText("" + notification.getListing().getName());
+        } catch (Exception e) {
+            textViewName.setText("Pricing.rate.amount");
+        }
 
         holder.myNotification = notification;
     }
@@ -77,7 +85,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter <NotificationsAda
         @BindView(R.id.fullName)
         public TextView textViewName;
         // Data
-        public User myNotification;
+        public SearchResult myNotification;
 
         public ViewHolder(View itemView) {
             super(itemView);
